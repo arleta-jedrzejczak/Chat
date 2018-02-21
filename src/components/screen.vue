@@ -1,7 +1,7 @@
 <template>
     <div class="posts">
   <div v-for="post in posts">
-      <p>{{ post.content }}</p>
+      <p>{{ post.author }}: {{ post.content }}</p>
   </div>
     </div>
 </template>
@@ -15,10 +15,8 @@ export default {
     }
   },
   methods: {
-
-  },
-  created() {
-        this.$http.get('https://livechat-b3aa5.firebaseio.com/posts.json').then(function(data){
+      publish: function() {
+          this.$http.get('https://livechat-b3aa5.firebaseio.com/posts.json').then(function(data){
             return data.json()
         }).then(function(data){
             var postsArray = [];
@@ -29,6 +27,13 @@ export default {
             this.posts = postsArray;
             console.log(this.posts);
         });
+      },
+      check: function() {
+          setInterval(this.publish, 500);
+      }
+  },
+  created() {
+      this.check();
   }
 }
 </script>

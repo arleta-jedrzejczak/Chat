@@ -2,7 +2,6 @@
   <div>
     <div>
       <label>Name: <input v-model="name" id="username" type="text" placeholder="Your name"></label>
-      <input id="submit" type="submit" value="Let's chat">
     </div>
     <app-screen></app-screen>
     <app-writer v-bind:name="name"></app-writer>
