@@ -1,8 +1,8 @@
 <template>
-    <div id="chat" class="message" v-show="name">
-        <div class="message__name">{{ name }}</div>
-        <div class="message__post" v-for="post in posts">
-            <p>{{ post.author }}: {{ post.content }}</p>
+    <div class="guests" v-if="name">
+        <p class="guests__name">Users:</p>
+        <div class="guests__list" v-for="name in names">
+            <p> {{ name.nick }} ;</p>
         </div>
     </div>
 </template>
@@ -16,23 +16,21 @@ export default {
     },
     data () {
         return {
-            posts: []
+            names: []
         }
     },
     methods: {
         publish: function() {
-            this.$http.get('https://livechat-b3aa5.firebaseio.com/posts.json').then(function(data){
+            this.$http.get('https://livechat-b3aa5.firebaseio.com/names.json').then(function(data){
                 return data.json()
             }).then(function(data){
-                var postsArray = [];
+                var guestsArray = [];
                 for (let key in data){
                     data[key].id = key;
-                    postsArray.push(data[key]);
+                    guestsArray.push(data[key]);
                 }
-                this.posts = postsArray;
+                this.names = guestsArray;
             });
-            var chat = document.querySelector('#chat');
-            chat.scrollTop = chat.scrollHeight;
         },
         check: function() {
             setInterval(this.publish, 500);
@@ -45,7 +43,9 @@ export default {
 </script>
 
 <style lang="scss">
-
-
-
+    .posts {
+        width: 70vw;
+        height: 50vh;
+        border: 1px solid black;
+    }
 </style>
